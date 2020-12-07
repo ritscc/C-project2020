@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    char expletive[EXPLETIVE_MAX_LEN] = "y";
+    char expletive[EXPLETIVE_MAX_LEN + 1] = "y";
 
     // User Custom Expletive
     if (argc > 1)
