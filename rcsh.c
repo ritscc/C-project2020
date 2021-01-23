@@ -64,6 +64,10 @@ int rcsh_exit(char** args) {
   return 0;
 }
 
+/*************/
+/*rcsh system*/
+/*************/
+
 int rcsh_execute(char** args) {
   int i;
 
