@@ -1,5 +1,4 @@
-all:
-	$(rcsh)
+all: rcsh
 
 rcsh:
 	gcc rcsh.c -o rcsh
