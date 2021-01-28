@@ -1,7 +1,7 @@
 all: clean rcsh
 
 rcsh:
-	gcc rcsh.c -g -o rcsh
+	gcc rcsh.c -Wall -Wextra -g -o rcsh
 
 clean:
 	rm rcsh
