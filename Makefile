@@ -1,4 +1,4 @@
-all: rcsh
+all: clean rcsh
 
 rcsh:
 	gcc rcsh.c -g -o rcsh
