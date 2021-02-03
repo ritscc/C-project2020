@@ -9,6 +9,11 @@ int main(int argc,char *argv[]){
     char str1[MAX_BUF];
     char str2[MAX_BUF];
 
+    if(argc!=3){
+        printf("usage:diff file1 file2\n");
+        return 0;
+    }
+
     file[0] = fopen(argv[1], "r");
     file[1] = fopen(argv[2], "r");
     if (file[0] == NULL||file[1] == NULL) {
