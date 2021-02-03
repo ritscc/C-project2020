@@ -50,6 +50,10 @@ int main(int argc,char *argv[]){
             if(!delete&&!insertion) printf(">%s", str2[searchB]);
         }
     }
+    for(int i=searchB;i<num2;i++){
+        printf(">%s",str2[i]);
+    }
+    
     printf("\n\n");
     fclose(file[0]);
     fclose(file[1]);
