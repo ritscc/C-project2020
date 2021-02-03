@@ -23,15 +23,19 @@ int main(int argc,char *argv[]){
     while ((fgets(str1[num1], MAX_BUF - 1, file[0])) != NULL) {
         num1++;
     }
+    //printf("%d\n",num1);
     while ((fgets(str2[num2], MAX_BUF - 1, file[1])) != NULL) {
         num2++;
     }
+    //printf("%d\n",num2);
     int searchA,searchB;
-    int insertion=0;
-    int delete=0;
     for (searchA=0,searchB=0;searchA<num1;searchA++,searchB++) {
+        int insertion=0;
+        int delete=0;
+        //printf("%d %d\n",searchA,searchB);
+        //int a=strcmp(str1[searchA],str2[searchB]);
         if(strcmp(str1[searchA],str2[searchB])){
-            for(int i=searchB+1;i<=num2;i++){
+            for(int i=searchB+1;i<num2;i++){
                 if(!strcmp(str1[searchA],str2[i])){
                     for(int j=searchB;j<i;j++){
                         printf(">%s",str2[j]);
