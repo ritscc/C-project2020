@@ -34,7 +34,7 @@ int main(int argc,char *argv[]){
             for(int i=searchB+1;i<=num2;i++){
                 if(!strcmp(str1[searchA],str2[i])){
                     for(int j=searchB;j<i;j++){
-                        printf("%s",str2[j]);
+                        printf(">%s",str2[j]);
                     }
                     searchB=i;
                     insertion=1;
