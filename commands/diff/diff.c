@@ -26,10 +26,20 @@ int main(int argc,char *argv[]){
     while ((fgets(str2[num2], MAX_BUF - 1, file[1])) != NULL) {
         num2++;
     }
-    for (int i=0;i<num1;i++) {
-        if(strcmp(str1[i],str2[i])){
-            printf("%d\n",i+1);
-            printf("%s",str2[i]);
+    int searchA,searchB;
+    int insertion=0;
+    for (searchA=0,searchB=0;searchA<num1;searchA++,searchB++) {
+        if(strcmp(str1[searchA],str2[searchB])){
+            for(int i=searchB+1;i<=num2;i++){
+                if(!strcmp(str1[searchA],str2[i])){
+                    for(int j=searchB;j<i;j++){
+                        printf("%s",str2[j]);
+                    }
+                    searchB=i;
+                    insertion=1;
+                }
+            }
+            if(!insertion) printf("%s",str2[searchB]);
         }
     }
     printf("\n\n");
