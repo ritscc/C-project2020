@@ -35,20 +35,27 @@ int main(int argc,char *argv[]){
         //printf("%d %d\n",searchA,searchB);
         //int a=strcmp(str1[searchA],str2[searchB]);
         if(strcmp(str1[searchA],str2[searchB])){
-            for(int i=searchB+1;i<num2;i++){
-                if(!strcmp(str1[searchA],str2[i])){
-                    for(int j=searchB;j<i;j++){
-                        printf(">%s",str2[j]);
+            for (int i = searchA + 1; i < num1; i++) {
+                if (!strcmp(str1[i], str2[searchB])) {
+                    for (int j = searchA; j < i; j++) {
+                        printf("<%s", str1[j]);
                     }
-                    searchB=i;
-                    insertion=1;
+                    searchA = i;
+                    delete = 1;
+                    break;
                 }
             }
-            if (!insertion) {
-                if (!strcmp(str1[searchA + 1], str2[searchB])) {
-                    printf("<%s", str1[searchA]);
-                    searchB--;
-                    delete = 1;
+
+            if (!delete) {
+                for (int i = searchB + 1; i < num2; i++) {
+                    if (!strcmp(str1[searchA], str2[i])) {
+                        for (int j = searchB; j < i; j++) {
+                            printf(">%s", str2[j]);
+                        }
+                        searchB = i;
+                        insertion = 1;
+                        break;
+                    }
                 }
             }
             if(!delete&&!insertion) printf(">%s", str2[searchB]);
