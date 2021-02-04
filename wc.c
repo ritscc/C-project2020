@@ -22,7 +22,7 @@ typedef struct {
 //プロトタイプ宣言
 int count_byte(char *); //ファイルのバイト数をカウント
 int count_character(char *);  //ファイルの文字数を計算をカウント
-int max_line_byte(char *);  //ファイルの最大行数をカウント
+int max_line_byte(char *);  //ファイルの最大バイト数の行のバイト数をカウント
 int count_words(char *);  //ファイルの単語数をカウント
 int count_line(char *); //ファイルの行数をカウント
 
@@ -130,7 +130,7 @@ int count_character(char *target_file){
 
 	return cnt;
 }
-//ファイルの最大バイトの行のバイト数を返す関数
+//ファイルの最大バイト数の行のバイト数を返す関数
 int max_line_byte(char *target_file){
 	FILE *fp;
 	char str[N], *ptr;
