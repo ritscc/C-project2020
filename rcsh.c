@@ -28,7 +28,9 @@ int main(void) {
 
     while (1) {
         // read
-        argv = read_cmd(&argc, &exec_bg);
+        if ((argv = read_cmd(&argc, &exec_bg)) == NULL) {
+            break;
+        }
 
         // no input
         if (argc < 1) {

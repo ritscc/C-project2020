@@ -14,9 +14,8 @@ char **read_cmd(int *argc, bool *exec_bg) {
 
     // input
     printf("rcsh> ");
-    fgets(input, BUFSIZE, stdin);
-    if (feof(stdin)) {
-        return 0;
+    if (fgets(input, BUFSIZE, stdin) == NULL) {
+        return NULL;
     }
     input[strlen(input) - 1] = '\0';
 
