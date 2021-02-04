@@ -4,11 +4,11 @@ subdirs := $(shell find . -maxdepth 2 -path "./commands/*")
 all: $(subdirs) rcsh
 
 $(subdirs):
-		$(MAKE) -C $@ $(MAKECMDGOALS)
+	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 rcsh: rcsh.c
-		gcc rcsh.c -Wall -Wextra -g -o rcsh
+	gcc rcsh.c -Wall -Wextra -g -o rcsh
 
 clean: $(subdirs)
-		rm rcsh
+	rm rcsh
 
