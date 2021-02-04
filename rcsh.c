@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <dirent.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -10,12 +11,17 @@
 char **read_cmd(int *, bool *);
 pid_t execute(char *argv[]);
 void sigchld_wait(int sig);
+char **get_internal_cmd(void);
 
 int main(void) {
+    // bg実行終了後のリソース回収処理
     if (signal(SIGCHLD, sigchld_wait) == SIG_ERR) {
         fprintf(stderr, "rcsh: signal(SIGCHLD) failed\n");
         exit(1);
     }
+
+    // 組み込みコマンドの取得
+    char **internal_cmds = get_internal_cmd();
 
     while (1) {
         printf("rcsh> ");
@@ -113,4 +119,36 @@ void sigchld_wait(int sig) {
     int status;
     waitpid(-1, &status, WNOHANG);
     printf("process exited with status %d\n", WEXITSTATUS(status));
+}
+
+char **get_internal_cmd(void) {
+    const int MAX_CMD_LENGTH = 128;
+    const int MAX_CMD_COUNT = 32;
+    char **commands = calloc(MAX_CMD_COUNT, sizeof(char *));
+    int cmd_cnt = 0;
+
+    DIR *dir = opendir("./commands");
+    if (dir == NULL) {
+        fprintf(stderr, "unable to opendir ./commands\n");
+        exit(1);
+    }
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_name[0] == '.') {
+            continue;
+        }
+        int len = strlen(entry->d_name);
+        if (len > MAX_CMD_LENGTH) {
+            len = MAX_CMD_LENGTH;
+        }
+        char *cmd = calloc(len, sizeof(char));
+
+        strncpy(cmd, entry->d_name, len);
+        commands[cmd_cnt++] = cmd;
+        printf("found: %s\n", entry->d_name);
+    }
+
+    closedir(dir);
+    return commands;
 }
