@@ -9,9 +9,11 @@
 #include <unistd.h>
 
 char **read_cmd(int *, bool *);
-pid_t execute(char *argv[]);
-void sigchld_wait(int sig);
-char **get_internal_cmd(void);
+pid_t execute(char *, char **);
+void sigchld_wait(int);
+char **get_internal_cmd(int *);
+
+const int MAX_CMD_LENGTH = 128;
 
 int main(void) {
     // bg実行終了後のリソース回収処理
@@ -21,7 +23,8 @@ int main(void) {
     }
 
     // 組み込みコマンドの取得
-    char **internal_cmds = get_internal_cmd();
+    int internal_cmds_cnt;
+    char **internal_cmds = get_internal_cmd(&internal_cmds_cnt);
 
     while (1) {
         printf("rcsh> ");
@@ -36,11 +39,28 @@ int main(void) {
 
         if (strcmp(argv[0], "exit") == 0) break;
 
-        pid_t pid = execute(argv);
+        // 組み込みコマンドかどうかを判定してコマンド名を生成
+        char *cmd = malloc(sizeof(char) * MAX_CMD_LENGTH);
+        memset(cmd, 0, sizeof(char) * MAX_CMD_LENGTH);
+        if (internal_cmds != NULL) {
+            for (int i = 0; i < internal_cmds_cnt; i++) {
+                if (strcmp(argv[0], internal_cmds[i]) == 0) {
+                    snprintf(cmd, MAX_CMD_LENGTH, "./commands/%s/%s",
+                             internal_cmds[i], internal_cmds[i]);
+                    break;
+                }
+            }
+        }
+        if (cmd[0] == '\0') {
+            free(cmd);
+            cmd = argv[0];
+        }
+
+        pid_t pid = execute(cmd, argv);
         int status;
         if (!exec_bg) {
             wait(&status);
-            printf("Exited with status %d\n", WEXITSTATUS(status));
+            // printf("Exited with status %d\n", WEXITSTATUS(status));
         }
         free(*argv);
         free(argv);
@@ -94,7 +114,7 @@ char **read_cmd(int *argc, bool *exec_bg) {
     }
 
     if (argv[arg_cnt] != NULL) {
-        argv = realloc((char **)*argv, (arg_cnt + 2) * sizeof(char *));
+        argv = realloc(argv, (arg_cnt + 2) * sizeof(char *));
         argv[arg_cnt] = NULL;
     }
 
@@ -106,11 +126,11 @@ char **read_cmd(int *argc, bool *exec_bg) {
     return argv;
 }
 
-pid_t execute(char *argv[]) {
+pid_t execute(char *cmd, char *argv[]) {
     pid_t pid = fork();
     if (pid != 0) return pid;
 
-    execvp(argv[0], argv);
+    execvp(cmd, argv);
     perror("Child Process Error");
     exit(1);
 }
@@ -121,8 +141,7 @@ void sigchld_wait(int sig) {
     printf("process exited with status %d\n", WEXITSTATUS(status));
 }
 
-char **get_internal_cmd(void) {
-    const int MAX_CMD_LENGTH = 128;
+char **get_internal_cmd(int *cmd_num) {
     const int MAX_CMD_COUNT = 32;
     char **commands = calloc(MAX_CMD_COUNT, sizeof(char *));
     int cmd_cnt = 0;
@@ -150,5 +169,6 @@ char **get_internal_cmd(void) {
     }
 
     closedir(dir);
+    *cmd_num = cmd_cnt;
     return commands;
 }
