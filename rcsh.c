@@ -9,6 +9,7 @@
 
 pid_t execute(char *, char **);
 void sigchld_wait(int);
+void sigint_ignore(int sig) { return; }
 
 int main(void) {
     // bg実行終了後のリソース回収処理
@@ -27,6 +28,12 @@ int main(void) {
     char **inner_cmds = get_internal_cmd(&inner_cmds_cnt);
 
     while (1) {
+        // ^Cを無視
+        if (signal(SIGINT, SIG_IGN) == SIG_ERR) {
+            fprintf(stderr, "rcsh: signal(SIGINT) failed\n");
+            exit(1);
+        }
+
         // read
         if ((argv = read_cmd(&argc, &exec_bg)) == NULL) {
             break;
@@ -66,8 +73,9 @@ pid_t execute(char *cmd, char *argv[]) {
     pid_t pid = fork();
     if (pid != 0) return pid;
 
+    signal(SIGINT, SIG_DFL);
     execvp(cmd, argv);
-    perror("Child Process Error");
+    perror(argv[0]);
     exit(1);
 }
 
