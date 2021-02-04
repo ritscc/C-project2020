@@ -1,4 +1,4 @@
-all:
+all: pwd.c
 		gcc pwd.c -o pwd
 
 clean:
