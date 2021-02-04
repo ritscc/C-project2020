@@ -15,7 +15,6 @@ void create_pathname(const char *filename, char *pathname);
 
 void option_c(char *argv[]);
 int space_judge(char *format[], char *buf);
-
 void option_t(char *pathname);
 
 void illegal_option_err(char option);
