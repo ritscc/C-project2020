@@ -29,8 +29,8 @@ int main(int argc, char** argv){
 	unmatch_line_t unmatch_line[LINE]={};
 
 	FILE *file;
-	char LineFromFile[N];
-	char GetLine[N];
+	char line_from_file[N];
+	char get_line[N];
 	int i;
 	int line_count = 1;
 
@@ -70,26 +70,26 @@ int main(int argc, char** argv){
 
 	/*文字取得*/	
 	for(i=0; i<sizeof(argv[argc-2]);i++){
-		GetLine[i] = argv[argc-2][i];
+		get_line[i] = argv[argc-2][i];
 	}
 	
 	int count = 0;
 	int se_count = 0;
-	//devided MatchLine and UnMatchLine from LineFromFile//
-	while(fgets(LineFromFile, N, file) != NULL){
+	//devided MatchLine and UnMatchLine from line_from_file//
+	while(fgets(line_from_file, N, file) != NULL){
 		if(opt_i){
 			for(i=0;i<N;i++){
-				GetLine[i] = tolower(GetLine[i]);
-				LineFromFile[i] = tolower(LineFromFile[i]);
+				get_line[i] = tolower(get_line[i]);
+				line_from_file[i] = tolower(line_from_file[i]);
 			}
 		}
-		if(strstr(LineFromFile,GetLine) == NULL){
+		if(strstr(line_from_file,get_line) == NULL){
 			unmatch_line[count].line_number = line_count; 
-			strncpy(unmatch_line[count].line,LineFromFile,N);
+			strncpy(unmatch_line[count].line,line_from_file,N);
 			count++;
-		}else if(strstr(LineFromFile,GetLine) != NULL){
+		}else if(strstr(line_from_file,get_line) != NULL){
 			match_line[se_count].line_number = line_count; 
-			strncpy(match_line[se_count].line,LineFromFile,N);
+			strncpy(match_line[se_count].line,line_from_file,N);
 			se_count++;
 		}
 		line_count++;
