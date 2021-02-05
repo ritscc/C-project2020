@@ -25,7 +25,7 @@ int main(void) {
 
     // 組み込みコマンドの取得
     int inner_cmds_cnt;
-    char **inner_cmds = get_internal_cmd(&inner_cmds_cnt);
+    char **inner_cmds = get_inner_cmd(&inner_cmds_cnt);
 
     while (1) {
         // ^Cを無視

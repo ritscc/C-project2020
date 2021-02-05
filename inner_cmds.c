@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char **get_internal_cmd(int *cmd_num) {
+char **get_inner_cmd(int *cmd_num) {
     const int MAX_CMD_COUNT = 32;
     const int MAX_CMD_LENGTH = 128;
     char **commands = calloc(MAX_CMD_COUNT, sizeof(char *));
