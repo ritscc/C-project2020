@@ -84,12 +84,12 @@ int main(int argc, char** argv){
 			}
 		}
 		if(strstr(LineFromFile,GetLine) == NULL){
-			match_line[count].line_number = line_count; 
-			strncpy(match_line[count].line,LineFromFile,N);
+			unmatch_line[count].line_number = line_count; 
+			strncpy(unmatch_line[count].line,LineFromFile,N);
 			count++;
 		}else if(strstr(LineFromFile,GetLine) != NULL){
-			unmatch_line[se_count].line_number = line_count; 
-			strncpy(unmatch_line[se_count].line,LineFromFile,N);
+			match_line[se_count].line_number = line_count; 
+			strncpy(match_line[se_count].line,LineFromFile,N);
 			se_count++;
 		}
 		line_count++;
@@ -100,11 +100,11 @@ int main(int argc, char** argv){
 	char line[N];
 	while(i < max(count,se_count)){
 		if(opt_v){
-			number = match_line[i].line_number;
-			strncpy(line,match_line[i].line,N);
-		}else{
 			number = unmatch_line[i].line_number;
 			strncpy(line,unmatch_line[i].line,N);
+		}else{
+			number = match_line[i].line_number;
+			strncpy(line,match_line[i].line,N);
 		}
 
 
@@ -116,7 +116,6 @@ int main(int argc, char** argv){
 		}
 
 		printf("%s",line);
-		//print_text(line,GetLine);
 
 		i++;
 	}
