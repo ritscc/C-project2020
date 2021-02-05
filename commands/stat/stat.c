@@ -12,14 +12,11 @@
 #define PATHNAME_SIZE 256
 
 void create_pathname(const char *filename, char *pathname);
-
 void option_c(char *argv[]);
 int space_judge(char *format[], char *buf);
 void option_t(char *pathname);
-
 void illegal_option_err(char option);
 void need_argument_err(char option);
-
 void print_all(char *pathname);
 void print_file_name(char *pathname);
 void print_file_size(struct stat file_info);
@@ -39,7 +36,6 @@ void print_change_time(struct stat file_info);
 int main(int argc, char *argv[]) {
 
   if (argc < 2) {
-    // stdinの情報だけどエラーで処理
     fprintf(stderr, "usage: ./stat [-L] [-c 書式] [-t] パス名 ...\n");
     exit(EXIT_FAILURE);
   }
@@ -307,7 +303,6 @@ void print_permission(struct stat file_info) {
     break;
   }
   // user permission rwx
-  // printf("Mode:%o ", (unsigned)file_info.st_mode);
   switch (file_info.st_mode & S_IRWXU) {
   case 0000700:
     printf("rwx");
