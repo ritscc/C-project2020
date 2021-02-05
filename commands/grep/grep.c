@@ -47,7 +47,7 @@ int main(int argc, char** argv){
 	int opt_i = 0;
 	int opt_v = 0;
 	int opt_n = 0;
-	//option select
+	//option select//
 	for(i=0;i<argc-2;i++){
 		if(argv[i][0] == '-'){
 			int j=1;
