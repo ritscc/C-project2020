@@ -25,16 +25,43 @@ int max(int a, int b){
 	if(a>b) return a;
 	else return b;
 }
-
 //void print_text(char* line,char* GetLine){
-//	for(int i=0;i<N;i++){
-//		for(int j=0;j<N;j++){
+//	int number_ch = strlen(GetLine);
+//	char* tmp1;
+//	char* tmp2;
+//	char* match;
+//	int i,j;
+//	while(*line != '\0'){
+//		while(*line != '\n' && *line != *GetLine){
+//			line++;
 //		}
+//		if(*line == '\0') break;
+//		tmp1 = line;
+//		tmp2 = GetLine;
+//		while(*tmp1 == *tmp2 && *tmp1 != '\0'){
+//			tmp1++;
+//			tmp2++;
+//		}
+//		if(*tmp2 == '\0'){
+//			match = line;
+//			break;
+//		}
+//		line++;
+//		i++;
 //	}
 //
-//	printf("\x1b[31m");
 //	
-//	printf("\x1b[49m");
+////	for(j=0;j<i;j++){
+////		putchar(line[j]);
+////	}
+//	for(j=0;j<number_ch;j++){
+//		printf("\x1b[31m");
+//		putchar(match[j]);
+//		printf("\x1b[49m");
+//	}
+////	for(;j<sizeof(match);j++){
+////		putchar(match[j]);
+////	}
 //}
 
 int main(int argc, char** argv){
@@ -134,11 +161,16 @@ int main(int argc, char** argv){
 			strncpy(line,unmatch_line[i].line,N);
 		}
 
+
 		if(opt_n){
+			if(number == 0){
+				break;
+			}
 			printf("%6d  ", number);
 		}
 
 		printf("%s",line);
+		//print_text(line,GetLine);
 
 		i++;
 	}
