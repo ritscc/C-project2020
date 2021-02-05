@@ -5,6 +5,7 @@
 #include <ctype.h>
 
 #define N 256
+#define LINE 10000
 
 typedef struct match_line_t{
 	int line_number;
@@ -16,59 +17,16 @@ typedef struct unmatch_line_t{
 	char line[N];
 }unmatch_line_t;
 
-typedef struct lines_t{
-	int line_number;
-	char line[N];
-}lines_t;
 
 int max(int a, int b){
 	if(a>b) return a;
 	else return b;
 }
-//void print_text(char* line,char* GetLine){
-//	int number_ch = strlen(GetLine);
-//	char* tmp1;
-//	char* tmp2;
-//	char* match;
-//	int i,j;
-//	while(*line != '\0'){
-//		while(*line != '\n' && *line != *GetLine){
-//			line++;
-//		}
-//		if(*line == '\0') break;
-//		tmp1 = line;
-//		tmp2 = GetLine;
-//		while(*tmp1 == *tmp2 && *tmp1 != '\0'){
-//			tmp1++;
-//			tmp2++;
-//		}
-//		if(*tmp2 == '\0'){
-//			match = line;
-//			break;
-//		}
-//		line++;
-//		i++;
-//	}
-//
-//	
-////	for(j=0;j<i;j++){
-////		putchar(line[j]);
-////	}
-//	for(j=0;j<number_ch;j++){
-//		printf("\x1b[31m");
-//		putchar(match[j]);
-//		printf("\x1b[49m");
-//	}
-////	for(;j<sizeof(match);j++){
-////		putchar(match[j]);
-////	}
-//}
 
 int main(int argc, char** argv){
 
-	match_line_t match_line[N]={};
-	unmatch_line_t unmatch_line[N]={};
-	lines_t lines[N]={};
+	match_line_t match_line[LINE]={};
+	unmatch_line_t unmatch_line[LINE]={};
 
 	FILE *file;
 	char LineFromFile[N];
@@ -89,31 +47,25 @@ int main(int argc, char** argv){
 	int opt_i = 0;
 	int opt_v = 0;
 	int opt_n = 0;
-	int opt_C = 0;
-	int opt_C_line = 0;
 	//option select
 	for(i=0;i<argc-2;i++){
-	  if(argv[i][0] == '-'){
+		if(argv[i][0] == '-'){
 			int j=1;
-				while(j<sizeof(argv[i])){
-				  switch(argv[i][j]){
-					  case 'i':
-		       	opt_i++;
-		       	break;
-		      case 'v':
-		      	opt_v++;
-		      	break;
-				  case 'n':
-		      	opt_n++;
-		   	  	break;
-			  	case 'C':
-						opt_C++;
-						opt_C_line = atoi(argv[i+1]);
+			while(j<sizeof(argv[i])){
+				switch(argv[i][j]){
+					case 'i':
+						opt_i++;
+						break;
+					case 'v':
+						opt_v++;
+						break;
+					case 'n':
+						opt_n++;
 						break;
 				}
-					j++;
+				j++;
 			}
-	  }
+		}
 	}
 
 	/*文字取得*/	
@@ -132,20 +84,14 @@ int main(int argc, char** argv){
 			}
 		}
 		if(strstr(LineFromFile,GetLine) == NULL){
-			for(i=0;i<strlen(LineFromFile);i++){
-				match_line[count].line_number = line_count; 
-				strncpy(match_line[se_count].line,LineFromFile,N);
-			}
+			match_line[count].line_number = line_count; 
+			strncpy(match_line[count].line,LineFromFile,N);
 			count++;
-		}else{
-			for(i=0;i<strlen(LineFromFile);i++){
-				unmatch_line[se_count].line_number = line_count; 
-				strncpy(unmatch_line[se_count].line,LineFromFile,N);
-			}
+		}else if(strstr(LineFromFile,GetLine) != NULL){
+			unmatch_line[se_count].line_number = line_count; 
+			strncpy(unmatch_line[se_count].line,LineFromFile,N);
 			se_count++;
 		}
-		lines[line_count].line_number = line_count;
-		strncpy(lines[line_count].line,LineFromFile,N);
 		line_count++;
 	}
 	
