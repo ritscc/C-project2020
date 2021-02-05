@@ -1,4 +1,4 @@
-all:
+all: grep.c
 
 	gcc -o grep grep.c
 
